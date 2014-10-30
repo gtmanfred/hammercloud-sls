@@ -1,0 +1,17 @@
+#!/bin/bash
+
+yum install -y python-setuptools
+
+git clone git@github.com:<username>/hammercloud /hammercloud -b $1
+cd /hammercloud/pkgs
+
+install -d ~/rpmbuild/SOURCES
+install -d /var/www/html/rpm/el7/x86_64
+
+curl -o ~/rpmbuild/SOURCES/hammercloud-$1.tar.gz http://hammercloud.gtmanfred.com/packages/hammercloud-$1.tar.gz
+
+rpmbuild -bb hammercloud.spec
+
+find ~/rpmbuild
+mv ~/rpmbuild/RPMS/x86_64/* /var/www/html/rpm/el7/x86_64/
+createrepo /var/www/html/rpm/el7/x86_64

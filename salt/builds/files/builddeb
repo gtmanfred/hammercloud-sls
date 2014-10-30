@@ -1,0 +1,9 @@
+#!/bin/bash
+
+git clone git@github.com:<username>/hammercloud /hammercloud
+cd /hammercloud
+git branch upstream/$1 $1
+git-buildpackage
+
+cd /var/www/html/debian
+reprepro includedeb rackspace /build-area/*.deb

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+install -d /var/www/html/archlinux/os/{i686,x86_64}
+
+git clone git@github.com:<username>/hammercloud /hammercloud -b $1
+cd /hammercloud/pkgs
+makepkg -g --asroot >> PKGBUILD
+makepkg -s --asroot --noconfirm
+
+cd /var/www/html/archlinux/os
+cp *.pkg.tar.xz i686/
+mv *.pkg.tar.xz x86_64/
+
+repo-add x86_64/hammercloud.db.tar.xz x86_64/hammercloud-$1-*-any.pkg.tar.xz
+repo-add i686/hammercloud.db.tar.xz x86_64/hammercloud-$1-*-any.pkg.tar.xz

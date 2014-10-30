@@ -1,0 +1,9 @@
+[Unit]
+Description=Pypi server for hammercloud
+
+[Service]
+User=pypi
+ExecStart=/usr/local/bin/pypi-server -p 8080 -i localhost /srv/pypi/packages
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,12 @@
+from base/archlinux
+
+RUN /bin/bash -c "pacman -Syu --noconfirm base-devel git openssh"
+
+ADD id_rsa /root/.ssh/id_rsa
+RUN /bin/bash -c "chmod 600 /root/.ssh/id_rsa"
+ADD known_hosts /root/.ssh/known_hosts
+
+ADD makepkg.conf /etc/makepkg.conf
+
+ADD build /build-package
+RUN /bin/bash -c "chmod +x /build-package"

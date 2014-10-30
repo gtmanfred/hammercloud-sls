@@ -1,0 +1,8 @@
+server {
+    server_name repos.gtmanfred.com;
+    listen 80;
+    root /var/www/html/;
+    location / {
+        autoindex on;
+    }
+}

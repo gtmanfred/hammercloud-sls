@@ -1,0 +1,12 @@
+from centos:centos6
+
+RUN /bin/bash -c "yum update -y"
+RUN /bin/bash -c "yum groupinstall -y 'Development Tools'"
+RUN /bin/bash -c "yum install -y rpmdevtools rpm-build createrepo tar"
+
+ADD id_rsa /root/.ssh/id_rsa
+RUN /bin/bash -c "chmod 600 /root/.ssh/id_rsa"
+ADD known_hosts /root/.ssh/known_hosts
+
+ADD build /build-package
+RUN /bin/bash -c "chmod +x /build-package"

@@ -1,0 +1,20 @@
+from debian:jessie
+
+RUN /bin/bash -c "sed -i 's/http.debian.net/mirror.rackspace.com/g' /etc/apt/sources.list"
+ENV DEBIAN_FRONTEND noninteractive
+RUN /bin/bash -c "apt-get update && apt-get upgrade -y"
+RUN /bin/bash -c "apt-get install -y build-essential debhelper devscripts git-buildpackage dh-python"
+RUN /bin/bash -c "apt-get install -y python-all python3-all python-setuptools python3-setuptools git"
+RUN /bin/bash -c "apt-get install -y reprepro"
+
+ADD id_rsa /root/.ssh/id_rsa
+RUN /bin/bash -c "chmod 600 /root/.ssh/id_rsa"
+ADD known_hosts /root/.ssh/known_hosts
+
+ADD build /build-package
+RUN /bin/bash -c "chmod +x /build-package"
+
+ADD public.key /public.key
+ADD private.key /private.key
+RUN /bin/bash -c "gpg --import /public.key"
+RUN /bin/bash -c "gpg --allow-secret-key-import --import /private.key"
